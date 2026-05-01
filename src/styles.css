@@ -1,0 +1,181 @@
+.cc-header,
+.cc-usageRow {
+	--cc-text: #134e4a;
+	--cc-muted: #5f746f;
+	--cc-stroke: #0f766e;
+	--cc-fill: #0f766e;
+	--cc-near: #f59e0b;
+	--cc-limit: #dc2626;
+	--cc-marker: #111827;
+
+	color: var(--cc-text);
+	font-size: 11px;
+	line-height: 1.4;
+	user-select: none;
+}
+
+html[data-mode="dark"] .cc-header,
+html[data-mode="dark"] .cc-usageRow {
+	--cc-text: #ccfbf1;
+	--cc-muted: #99b8b1;
+	--cc-stroke: #5eead4;
+	--cc-fill: #2dd4bf;
+	--cc-near: #fbbf24;
+	--cc-limit: #ef4444;
+	--cc-marker: #f8fafc;
+}
+
+.cc-header {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 2px;
+	padding: 1px 4px;
+}
+
+.cc-headerText,
+.cc-cacheText,
+.cc-usageText {
+	white-space: nowrap;
+}
+
+.cc-cacheText {
+	color: var(--cc-muted);
+}
+
+.cc-usageRow {
+	position: relative;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	align-self: stretch;
+	grid-column: 1 / -1;
+	flex-basis: 100%;
+	box-sizing: border-box;
+	gap: 12px;
+	width: 100%;
+	max-width: 100%;
+	margin-top: 4px;
+	padding: 0 6px 2px;
+	cursor: pointer;
+	transition: opacity 150ms ease;
+}
+
+.cc-dim {
+	opacity: 0.6;
+}
+
+.cc-usageGroup {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 1;
+	min-width: 0;
+	max-width: 100%;
+}
+
+.cc-usageGroup:last-child {
+	justify-content: flex-end;
+}
+
+.cc-usageNear,
+.cc-header.cc-usageNear {
+	color: var(--cc-near);
+}
+
+.cc-usageLimit,
+.cc-header.cc-usageLimit {
+	color: var(--cc-limit);
+}
+
+.cc-bar {
+	position: relative;
+	display: inline-block;
+	box-sizing: border-box;
+	border: 1px solid var(--cc-stroke);
+	border-radius: 2px;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+.cc-barMini {
+	width: 64px;
+	height: 7px;
+}
+
+.cc-barUsage {
+	flex: 1;
+	min-width: 120px;
+	max-width: 180px;
+	height: 10px;
+	overflow: visible;
+}
+
+.cc-barFill {
+	display: block;
+	width: 0%;
+	height: 100%;
+	background: var(--cc-fill);
+	transition: width 250ms ease, background-color 250ms ease;
+}
+
+.cc-barFillNear {
+	background: var(--cc-near);
+}
+
+.cc-barFillLimit {
+	background: var(--cc-limit);
+}
+
+.cc-barMarker {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	background: var(--cc-marker);
+	pointer-events: none;
+}
+
+.cc-tooltip {
+	position: fixed;
+	z-index: 9999;
+	max-width: min(360px, calc(100vw - 20px));
+	padding: 5px 8px;
+	border: 1px solid #0f766e;
+	border-radius: 4px;
+	background: #f0fdfa;
+	color: #134e4a;
+	font-size: 12px;
+	line-height: 1.35;
+	white-space: normal;
+	user-select: none;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 150ms ease;
+}
+
+html[data-mode="dark"] .cc-tooltip {
+	border-color: #5eead4;
+	background: #042f2e;
+	color: #ccfbf1;
+}
+
+.cc-hidden {
+	display: none !important;
+}
+
+@media (max-width: 720px) {
+	.cc-usageRow {
+		flex-wrap: wrap;
+		gap: 4px 10px;
+	}
+
+	.cc-usageGroup {
+		flex-basis: 100%;
+		justify-content: flex-start !important;
+	}
+
+	.cc-barUsage {
+		max-width: none;
+	}
+}

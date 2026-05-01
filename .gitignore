@@ -1,0 +1,8 @@
+META-INF/
+*.zip
+*.xpi
+*.crx
+*.pem
+node_modules/
+.DS_Store
+Thumbs.db

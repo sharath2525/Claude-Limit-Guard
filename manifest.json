@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Claude Limit Guard",
+  "version": "0.4.4",
+  "description": "Checks Claude token estimate, cache timer, and usage limits using same-site API reads. No third-party network, storage, or page injection.",
+  "permissions": [],
+  "host_permissions": [],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none';"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png",
+    "128": "icons/icon128.png",
+    "256": "icons/icon256.png"
+  },
+  "action": {
+    "default_title": "Claude Limit Guard",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "96": "icons/icon96.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://claude.ai/*"
+      ],
+      "css": [
+        "src/styles.css"
+      ],
+      "js": [
+        "src/content/constants.js",
+        "src/content/claude-client.js",
+        "src/content/tokens.js",
+        "src/content/ui.js",
+        "src/content/main.js"
+      ]
+    }
+  ]
+}
