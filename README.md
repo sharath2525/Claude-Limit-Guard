@@ -4,6 +4,12 @@
 
 **Shows your Claude token count, cache timer, and usage limits — right inside the Claude interface.**
 
+<a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest">
+  <img src="https://img.shields.io/badge/⬇️%20Download%20Extension-Click%20Here-brightgreen?style=for-the-badge" alt="Download">
+</a>
+
+> ⚠️ Use the button above — **not** the green "Code → Download ZIP" button (that one causes errors)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg)](manifest.json)
 [![Chrome](https://img.shields.io/badge/Chrome-Supported-yellow.svg)](#-install)
