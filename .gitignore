@@ -6,3 +6,6 @@ META-INF/
 node_modules/
 .DS_Store
 Thumbs.db
+
+# Claude Code local config (not part of the extension)
+.claude/
