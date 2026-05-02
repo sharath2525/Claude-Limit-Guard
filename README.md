@@ -4,7 +4,7 @@
 
 **Shows your Claude token count, cache timer, and usage limits — right inside the Claude interface.**
 
-<a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest">
+<a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest/download/claude-limit-guard.zip">
   <img src="https://img.shields.io/badge/⬇️%20Download%20Extension-Click%20Here-brightgreen?style=for-the-badge" alt="Download">
 </a>
 

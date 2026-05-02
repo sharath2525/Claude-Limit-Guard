@@ -31,6 +31,7 @@ jobs:
             LICENSE \
             THIRD_PARTY_NOTICES.md \
             -x "*.DS_Store" "*.git*"
+          cp dist/claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip dist/claude-limit-guard.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -47,5 +48,7 @@ jobs:
             6. Open [claude.ai](https://claude.ai) — the usage bars appear automatically
 
             > No nested folders. No build step. Just download, extract, and load.
-          files: dist/claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip
+          files: |
+            dist/claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip
+            dist/claude-limit-guard.zip
           fail_on_unmatched_files: true
