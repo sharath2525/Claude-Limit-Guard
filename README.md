@@ -2,7 +2,7 @@
 
 # Claude Limit Guard
 
-**Tracks your Claude session and weekly usage limits — displayed directly inside the Claude interface.**
+**Track your Claude session and weekly usage limits, displayed directly inside Claude.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg)](manifest.json)
@@ -19,56 +19,59 @@
 
 ## What It Does
 
-Adds a compact bar inside your Claude tab showing:
+Adds a small bar inside your Claude tab showing your live usage limits:
 
 | Feature | Details |
 |---|---|
 | Session Bar | 5-hour rolling usage with colour-coded warnings |
-| Weekly Bar | 7-day usage with reset countdown |
-| Dark Mode | Auto-matches Claude's theme |
-| Click to Refresh | Click the bar to manually refresh limits |
+| Weekly Bar | 7-day usage with live reset countdown |
+| Dark Mode | Automatically matches Claude's theme |
+| Click to Refresh | Click the bar to fetch the latest limits instantly |
 
-Bar colours: Green = normal · Yellow = approaching limit (≥80%) · Red = near limit (≥98%)
+Bar colours: Green = normal, Yellow = approaching limit (80%+), Red = near limit (98%+)
 
 ---
 
 ## Install
 
-No build step. No dependencies. Download and load in under a minute.
+No build step. No dependencies. Done in under a minute.
 
-**Step 1 — Download**
+**Step 1: Download**
 
 <a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest/download/claude-limit-guard.zip">
   <img src="https://img.shields.io/badge/Download%20Extension-.zip-blue?style=for-the-badge" alt="Download ZIP">
 </a>
 
-Click the button above. The ZIP extracts with `manifest.json` at the root — ready to load directly.
+Click the button above to download from the latest release.
 
-> Do **not** use the green "Code → Download ZIP" button on the repo page. That ZIP has an extra nested folder which causes a "Manifest file missing" error.
+> Use this button only. Do not use the green "Code" button on the repo page — that download has a nested folder inside and will not load correctly.
 
-**Step 2 — Extract**
+**Step 2: Extract**
 
-Right-click the downloaded ZIP → **Extract All**. You'll get a single folder with `manifest.json` inside.
+Right-click the downloaded ZIP and choose **Extract All**. You will get a single folder.
 
-**Step 3 — Open Extensions**
+**Step 3: Open Extensions**
 
-Go to `chrome://extensions` in Chrome or `edge://extensions` in Edge.
+Type this in your browser address bar and press Enter:
 
-**Step 4 — Enable Developer Mode**
+- Chrome: `chrome://extensions`
+- Edge: `edge://extensions`
 
-Toggle **Developer mode** on in the top-right corner.
+**Step 4: Enable Developer Mode**
 
-**Step 5 — Load the Extension**
+Toggle **Developer mode** on using the switch in the top-right corner.
 
-Click **Load unpacked** → select the folder you extracted in Step 2.
+**Step 5: Load the Extension**
 
-**Step 6 — Pin It**
+Click **Load unpacked** and select the folder you extracted in Step 2.
 
-Click the puzzle-piece icon in your browser toolbar → find **Claude Limit Guard** → pin it.
+**Step 6: Pin It**
 
-**Step 7 — Open Claude**
+Click the puzzle-piece icon in your browser toolbar, find **Claude Limit Guard**, and click the pin icon.
 
-Go to [claude.ai](https://claude.ai) and open any conversation — the usage bars appear automatically.
+**Step 7: Open Claude**
+
+Go to [claude.ai](https://claude.ai) and open any conversation. The usage bars will appear automatically at the bottom of the chat input.
 
 ---
 
@@ -76,10 +79,10 @@ Go to [claude.ai](https://claude.ai) and open any conversation — the usage bar
 
 | Problem | Fix |
 |---|---|
-| "Load unpacked" not visible | Enable Developer mode first |
-| Nothing shows on Claude | Refresh the Claude tab after loading |
-| "Manifest file missing" error | Use the Download button above, not "Code → Download ZIP" |
-| Extension gone after browser restart | Normal for unpacked extensions — reload it from `chrome://extensions` |
+| "Load unpacked" is not visible | Enable Developer mode first (Step 4) |
+| Nothing appears on Claude | Reload the Claude tab after loading the extension |
+| "Manifest file missing" error | You used the wrong download. Use the Download button above, not "Code → Download ZIP" |
+| Extension disappears after browser restart | This is normal for unpacked extensions. Reload it from `chrome://extensions` |
 
 ---
 
@@ -87,76 +90,72 @@ Go to [claude.ai](https://claude.ai) and open any conversation — the usage bar
 
 ### Zero Permissions
 
-The `permissions` array in `manifest.json` is `[]` — empty. The extension runs only on `claude.ai` pages and cannot access any other site or tab.
+The extension requests no browser permissions at all. It only runs on `claude.ai` pages and cannot read or touch any other site or tab.
 
 | Permission | Status |
 |---|---|
 | Read all websites | Not requested |
 | Read cookies | Not requested |
-| Browser tabs / history | Not requested |
-| Clipboard / downloads | Not requested |
+| Browser tabs or history | Not requested |
+| Clipboard or downloads | Not requested |
 | Extension storage | Not used |
-| `claude.ai` pages only | Required to display the UI |
 
-### Network — Same Site Only
+### Network: Same Site Only
 
-Every request goes only to `claude.ai` — the same domain already open in your browser:
+The only request made is to the same `claude.ai` domain already open in your browser:
 
 ```
 GET https://claude.ai/api/organizations/{orgId}/usage
-GET https://claude.ai/api/organizations/{orgId}/chat_conversations/{id}
 ```
 
-No third-party servers. No analytics. Nothing sent outward.
+No third-party servers. No analytics. Nothing is sent outward.
 
-### Storage — Nothing Saved
+### Storage: Nothing Saved
 
-No `localStorage`, `sessionStorage`, `chrome.storage`, or cookies written. All data is computed in memory and gone when you close the tab.
+No `localStorage`, `sessionStorage`, `chrome.storage`, or cookies are written. All data lives in memory and disappears when you close the tab.
 
-### Code — Clean
+### Code: Clean
 
 | Check | Result |
 |---|---|
-| `innerHTML` anywhere | None — only `createElement` + `.textContent` |
+| `innerHTML` anywhere | None, only `createElement` and `.textContent` |
 | `eval()` or dynamic scripts | None |
-| External scripts at runtime | None |
-| XSS / injection vectors | None found |
+| External scripts loaded at runtime | None |
 | Content Security Policy | `script-src 'self'; object-src 'none'` |
 
-Verify yourself: all source is in `src/` — four small files. Check `manifest.json`: `permissions: []`, `host_permissions: []`.
+You can verify this yourself. All source code is in the `src/` folder. Open `manifest.json` and check: `permissions: []`, `host_permissions: []`.
 
 ---
 
-## Data Flow
+## How It Works
 
 ```
 You open claude.ai
-        │
-        ▼
-Extension starts (isolated — cannot touch page JS)
-        │
-        ├── Reads lastActiveOrg cookie → used only to build the API URL
-        │
-        ├── GET /api/organizations/{orgId}/usage
-        │       └── Shows session bar, weekly bar, reset countdown
-        │
-        └── Nothing is sent outward. Display is local DOM only.
+        |
+        v
+Extension starts (runs in isolation, cannot touch page JavaScript)
+        |
+        |-- Reads the org cookie value to build the API request URL
+        |
+        |-- GET /api/organizations/{orgId}/usage
+        |       Reads: session usage, weekly usage, reset times
+        |
+        v
+Displays session and weekly bars in the Claude interface.
+Nothing is sent outward. Everything is local.
 ```
 
-Usage bars refresh every 1 hour, or on click.
+Usage data is fetched from the API once per hour. The reset countdown shown on the bar updates live every second from that data. Click the bar at any time to fetch fresh data immediately.
 
 ---
 
 ## FAQ
 
-**Does it send my conversations anywhere?**
-No. Data comes from `claude.ai` endpoints already loaded in your browser. Nothing is forwarded.
-
-**Is the usage count exact?**
-No — it's an estimate based on the same API data Claude uses internally. Accurate enough for tracking context limits.
+**Does it send my data anywhere?**
+No. It reads usage data from `claude.ai` endpoints that your browser already has access to. Nothing is forwarded or stored.
 
 **Will it break if Anthropic updates Claude?**
-Possibly. If Claude's API paths change, the extension stops showing data silently — it will never crash or affect Claude itself.
+Possibly. If Claude's internal API paths change, the extension will stop showing data silently. It will never crash or affect Claude itself.
 
 **Does it work on mobile?**
 No. Desktop Chrome and Edge only.
@@ -165,13 +164,13 @@ No. Desktop Chrome and Edge only.
 
 ## Contributing
 
-PRs welcome. Keep `permissions: []` in the manifest and avoid `innerHTML`, `eval()`, or external network requests.
+PRs are welcome. Please keep `permissions: []` in the manifest and avoid `innerHTML`, `eval()`, or any external network requests.
 
 ---
 
 ## License
 
-MIT — Copyright (c) 2026 Sharath. See [LICENSE](LICENSE).
+MIT. Copyright (c) 2026 Sharath. See [LICENSE](LICENSE).
 
 ---
 
