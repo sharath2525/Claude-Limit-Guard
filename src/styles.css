@@ -1,7 +1,5 @@
-.cc-header,
 .cc-usageRow {
 	--cc-text: #134e4a;
-	--cc-muted: #5f746f;
 	--cc-stroke: #0f766e;
 	--cc-fill: #0f766e;
 	--cc-near: #f59e0b;
@@ -14,10 +12,8 @@
 	user-select: none;
 }
 
-html[data-mode="dark"] .cc-header,
 html[data-mode="dark"] .cc-usageRow {
 	--cc-text: #ccfbf1;
-	--cc-muted: #99b8b1;
 	--cc-stroke: #5eead4;
 	--cc-fill: #2dd4bf;
 	--cc-near: #fbbf24;
@@ -25,22 +21,8 @@ html[data-mode="dark"] .cc-usageRow {
 	--cc-marker: #f8fafc;
 }
 
-.cc-header {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	margin-top: 2px;
-	padding: 1px 4px;
-}
-
-.cc-headerText,
-.cc-cacheText,
 .cc-usageText {
 	white-space: nowrap;
-}
-
-.cc-cacheText {
-	color: var(--cc-muted);
 }
 
 .cc-usageRow {
@@ -78,13 +60,11 @@ html[data-mode="dark"] .cc-usageRow {
 	justify-content: flex-end;
 }
 
-.cc-usageNear,
-.cc-header.cc-usageNear {
+.cc-usageNear {
 	color: var(--cc-near);
 }
 
-.cc-usageLimit,
-.cc-header.cc-usageLimit {
+.cc-usageLimit {
 	color: var(--cc-limit);
 }
 
@@ -96,11 +76,6 @@ html[data-mode="dark"] .cc-usageRow {
 	border-radius: 2px;
 	overflow: hidden;
 	vertical-align: middle;
-}
-
-.cc-barMini {
-	width: 64px;
-	height: 7px;
 }
 
 .cc-barUsage {
