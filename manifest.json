@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Claude Limit Guard",
-  "version": "0.4.4",
-  "description": "Checks Claude token estimate, cache timer, and usage limits using same-site API reads. No third-party network, storage, or page injection.",
+  "version": "0.4.5",
+  "description": "Shows your Claude session and weekly usage limits right inside the Claude interface. No third-party network, storage, or page injection.",
   "permissions": [],
   "host_permissions": [],
   "content_security_policy": {
@@ -37,7 +37,6 @@
       "js": [
         "src/content/constants.js",
         "src/content/claude-client.js",
-        "src/content/tokens.js",
         "src/content/ui.js",
         "src/content/main.js"
       ]

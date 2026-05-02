@@ -5,16 +5,6 @@
 	if (CC.__started) return;
 	CC.__started = true;
 
-	function getConversationId() {
-		const match = window.location.pathname.match(/\/chat\/([^/?]+)/);
-		if (!match) return null;
-		try {
-			return decodeURIComponent(match[1]);
-		} catch {
-			return null;
-		}
-	}
-
 	function waitForElement(selector, timeoutMs) {
 		return new Promise((resolve) => {
 			const existing = document.querySelector(selector);
@@ -79,18 +69,11 @@
 	});
 	ui.initialize();
 
-	let currentConversationId = null;
 	let currentOrgId = null;
-	let conversationInFlight = false;
 	let usageInFlight = false;
-	let conversationTimer = null;
-	let lastConversationMs = 0;
 	let lastUsageMs = 0;
 
 	function attachUi() {
-		waitForElement(CC.DOM.CHAT_MENU_TRIGGER, 60000).then((el) => {
-			if (el) ui.attachHeader();
-		});
 		waitForElement(CC.DOM.MODEL_SELECTOR_DROPDOWN, 60000).then((el) => {
 			if (el) ui.attachUsageLine();
 		});
@@ -100,32 +83,6 @@
 		const orgId = CC.service.getLastActiveOrgId();
 		if (orgId) currentOrgId = orgId;
 		return currentOrgId;
-	}
-
-	async function refreshConversation() {
-		currentConversationId = getConversationId();
-		attachUi();
-
-		if (!currentConversationId) {
-			ui.setConversationMetrics();
-			return;
-		}
-
-		const orgId = updateOrgId();
-		if (!orgId || conversationInFlight) return;
-
-		conversationInFlight = true;
-		try {
-			const conversation = await CC.service.getConversation(orgId, currentConversationId);
-			if (currentConversationId === getConversationId()) {
-				ui.setConversationMetrics(CC.tokens.computeConversationMetrics(conversation));
-				lastConversationMs = Date.now();
-			}
-		} catch {
-			// The site may reject if the page is logged out or the API shape changes.
-		} finally {
-			conversationInFlight = false;
-		}
 	}
 
 	async function refreshUsage() {
@@ -146,47 +103,22 @@
 		}
 	}
 
-	function scheduleConversationRefresh(delay = CC.CONST.REFRESH_DEBOUNCE_MS) {
-		clearTimeout(conversationTimer);
-		conversationTimer = setTimeout(refreshConversation, delay);
-	}
-
 	function handleRouteChange() {
-		currentConversationId = getConversationId();
-		refreshConversation();
+		attachUi();
 		refreshUsage();
 	}
 
 	const unobserveUrl = observeUrlChanges(handleRouteChange);
 	window.addEventListener('beforeunload', unobserveUrl);
 
-	const domObserver = new MutationObserver(() => {
-		if (!document.hidden) scheduleConversationRefresh();
-	});
-	domObserver.observe(document.body, {
-		childList: true,
-		subtree: true,
-		characterData: true
-	});
-
 	document.addEventListener('visibilitychange', () => {
-		if (!document.hidden) {
-			refreshConversation();
-			refreshUsage();
-		}
-	});
-
-	document.addEventListener('click', () => {
-		if (!document.hidden) scheduleConversationRefresh(2500);
+		if (!document.hidden) refreshUsage();
 	});
 
 	handleRouteChange();
 	setInterval(() => {
 		ui.tick();
 		const now = Date.now();
-		if (!document.hidden && now - lastConversationMs > CC.CONST.CONVERSATION_REFRESH_INTERVAL_MS) {
-			refreshConversation();
-		}
 		if (!document.hidden && now - lastUsageMs > CC.CONST.USAGE_REFRESH_INTERVAL_MS) {
 			refreshUsage();
 		}

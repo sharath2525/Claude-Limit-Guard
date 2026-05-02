@@ -21,14 +21,18 @@
 
 No build step. No `npm install`. Just download and load.
 
-**Step 1 — Download**
+**Step 1 — Download (use the Release ZIP, not "Download ZIP")**
 
-Click the green **`Code`** button on this page → **`Download ZIP`**
+Go to the [**Releases**](../../releases/latest) page → download **`claude-limit-guard-vX.X.X.zip`**
+
+> ⚠️ Do **not** use the green **`Code → Download ZIP`** button on the main page.
+> That ZIP has a nested folder inside which causes a *"Manifest file missing"* error in Edge/Chrome.
+> The Release ZIP is built cleanly — no nesting, works first time.
 
 **Step 2 — Extract**
 
 Right-click the ZIP → **Extract All** (Windows) or double-click (Mac).
-You'll get a folder like **`claude-limit-guard-main`**.
+You'll get a folder with **`manifest.json`** directly inside — no sub-folders to navigate.
 
 **Step 3 — Open Extensions**
 
@@ -44,9 +48,7 @@ Toggle **Developer mode** ON in the top-right corner.
 
 **Step 5 — Load the Extension**
 
-Click **`Load unpacked`** → select the **`claude-limit-guard-main`** folder from Step 2.
-
-> ✅ Select the folder that has `manifest.json` directly inside it — not a subfolder, not the ZIP file.
+Click **`Load unpacked`** → select the extracted folder from Step 2.
 
 **Step 6 — Pin It**
 
@@ -70,7 +72,7 @@ Then follow Steps 3–7, selecting the cloned folder at Step 5.
 |---|---|
 | "Load unpacked" not visible | Toggle Developer mode ON first |
 | Nothing shows on Claude | Refresh the Claude tab after loading |
-| "Manifest file missing" error | You selected the wrong folder — pick the one containing `manifest.json` |
+| "Manifest file missing" error | You used "Download ZIP" from the main page — download from [Releases](../../releases/latest) instead |
 | Extension gone after restart | Normal for unpacked — reload from `chrome://extensions` |
 
 ---
@@ -81,8 +83,6 @@ Adds a small info bar inside your Claude tab showing:
 
 | | Feature | Details |
 |---|---|---|
-| 🔢 | **Token Counter** | Live estimate of tokens used in the current conversation |
-| ⚡ | **Cache Timer** | Countdown for how long your conversation stays cached |
 | 📊 | **Session Bar** | 5-hour rolling usage with colour-coded warnings |
 | 📅 | **Weekly Bar** | 7-day usage with reset countdown |
 | 🎨 | **Dark Mode** | Auto-matches Claude's theme |
@@ -145,22 +145,16 @@ You open claude.ai
 Extension starts (isolated — cannot touch page JS)
         │
         ├─► Reads lastActiveOrg cookie value → used to build API URL only
-        ├─► Reads URL path → extracts conversation ID
         │
         ├─► GET /api/organizations/{orgId}/usage
         │       └─► Shows: Session bar, Weekly bar, Reset countdown
-        │
-        ├─► GET /api/organizations/{orgId}/chat_conversations/{id}
-        │       └─► Shows: Token count, progress bar, cache timer
         │
         └─► Nothing is sent outward. Display is local DOM only.
 ```
 
 | Data | Refresh |
 |---|---|
-| Token count | Every 30s + on page change |
 | Usage bars | Every 1 hour (or click to refresh) |
-| Cache timer | Every 1s — countdown only, no API call |
 
 ---
 

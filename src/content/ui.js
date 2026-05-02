@@ -3,12 +3,6 @@
 
 	const CC = (globalThis.ClaudeLimitGuard = globalThis.ClaudeLimitGuard || {});
 
-	function formatSeconds(totalSeconds) {
-		const minutes = Math.floor(totalSeconds / 60);
-		const seconds = totalSeconds % 60;
-		return `${minutes}:${String(seconds).padStart(2, '0')}`;
-	}
-
 	function formatResetCountdown(timestampMs) {
 		const diffMs = timestampMs - Date.now();
 		if (!Number.isFinite(diffMs) || diffMs <= 0) return '0m';
@@ -89,38 +83,15 @@
 	class CounterUI {
 		constructor({ onUsageRefresh } = {}) {
 			this.onUsageRefresh = onUsageRefresh || null;
-			this.headerContainer = null;
-			this.tokenText = null;
-			this.cacheText = null;
-			this.tokenBarFill = null;
 			this.usageLine = null;
 			this.session = null;
 			this.weekly = null;
-			this.cachedUntil = null;
 			this.usageState = null;
 			this.refreshingUsage = false;
 			this.domObserver = null;
 		}
 
 		initialize() {
-			this.headerContainer = document.createElement('div');
-			this.headerContainer.className = 'cc-header cc-hidden';
-			this.headerContainer.tabIndex = 0;
-
-			this.tokenText = document.createElement('span');
-			this.tokenText.className = 'cc-headerText';
-
-			const tokenBar = document.createElement('span');
-			tokenBar.className = 'cc-bar cc-barMini';
-			this.tokenBarFill = document.createElement('span');
-			this.tokenBarFill.className = 'cc-barFill';
-			tokenBar.appendChild(this.tokenBarFill);
-
-			this.cacheText = document.createElement('span');
-			this.cacheText.className = 'cc-cacheText';
-
-			this.headerContainer.replaceChildren(this.tokenText, tokenBar, this.cacheText);
-
 			this.usageLine = document.createElement('div');
 			this.usageLine.className = 'cc-usageRow cc-hidden';
 			this.usageLine.tabIndex = 0;
@@ -140,10 +111,6 @@
 			});
 
 			setupTooltip(
-				this.headerContainer,
-				makeTooltip('Conversation data is read from the same site only to calculate tokens and cache timer. No third-party servers, storage, page injection, or file access.')
-			);
-			setupTooltip(
 				this.usageLine,
 				makeTooltip('Usage data is read from the same-site usage API for your logged-in account only. Nothing is sent to third-party servers.')
 			);
@@ -152,16 +119,8 @@
 		}
 
 		_observeDom() {
-			let headerPending = false;
 			let usagePending = false;
 			this.domObserver = new MutationObserver(() => {
-				if (!document.contains(this.headerContainer) && !headerPending) {
-					headerPending = true;
-					CC.waitForElement(CC.DOM.CHAT_MENU_TRIGGER, 60000).then((el) => {
-						headerPending = false;
-						if (el) this.attachHeader();
-					});
-				}
 				if (!document.contains(this.usageLine) && !usagePending) {
 					usagePending = true;
 					CC.waitForElement(CC.DOM.MODEL_SELECTOR_DROPDOWN, 60000).then((el) => {
@@ -174,12 +133,7 @@
 		}
 
 		attachHeader() {
-			const chatMenu = document.querySelector(CC.DOM.CHAT_MENU_TRIGGER);
-			if (!chatMenu) return;
-			const anchor = chatMenu.closest(CC.DOM.CHAT_PROJECT_WRAPPER) || chatMenu.parentElement;
-			if (anchor && anchor.nextElementSibling !== this.headerContainer) {
-				anchor.after(this.headerContainer);
-			}
+			// Token/cache header removed — no-op kept for API compatibility.
 		}
 
 		attachUsageLine() {
@@ -210,23 +164,8 @@
 			return null;
 		}
 
-		setConversationMetrics({ totalTokens, cachedUntil } = {}) {
-			if (typeof totalTokens !== 'number' || totalTokens <= 0) {
-				this.headerContainer.classList.add('cc-hidden');
-				this.tokenText.textContent = '';
-				this.cacheText.textContent = '';
-				this.cachedUntil = null;
-				this.tokenBarFill.style.width = '0%';
-				return;
-			}
-
-			this.headerContainer.classList.remove('cc-hidden');
-			const pct = Math.max(0, Math.min(100, (totalTokens / CC.CONST.CONTEXT_LIMIT_TOKENS) * 100));
-			this.tokenText.textContent = `~${totalTokens.toLocaleString()} tokens`;
-			this.tokenBarFill.style.width = `${pct}%`;
-			setUsageLevelClasses(this.tokenBarFill, this.headerContainer, pct, 75, 95);
-			this.cachedUntil = typeof cachedUntil === 'number' ? cachedUntil : null;
-			this._renderCache();
+		setConversationMetrics() {
+			// Token/cache display removed — no-op.
 		}
 
 		setUsage(usage) {
@@ -265,17 +204,7 @@
 			}
 		}
 
-		_renderCache() {
-			if (!this.cachedUntil) {
-				this.cacheText.textContent = '';
-				return;
-			}
-			const secondsLeft = Math.ceil((this.cachedUntil - Date.now()) / 1000);
-			this.cacheText.textContent = secondsLeft > 0 ? `cached for ${formatSeconds(secondsLeft)}` : '';
-		}
-
 		tick() {
-			this._renderCache();
 			if (this.usageState) this.setUsage(this.usageState);
 		}
 	}

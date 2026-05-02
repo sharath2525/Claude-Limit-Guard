@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Build clean ZIP
+        run: |
+          mkdir -p dist
+          zip -r dist/claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip \
+            manifest.json \
+            src/ \
+            icons/ \
+            README.md \
+            LICENSE \
+            THIRD_PARTY_NOTICES.md \
+            -x "*.DS_Store" "*.git*"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Claude Limit Guard ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Install
+
+            1. Download **claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip** below
+            2. Extract the ZIP — you get a folder with `manifest.json` directly inside
+            3. Go to `chrome://extensions` or `edge://extensions`
+            4. Enable **Developer mode**
+            5. Click **Load unpacked** → select the extracted folder
+            6. Open [claude.ai](https://claude.ai) — the usage bars appear automatically
+
+            > No nested folders. No build step. Just download, extract, and load.
+          files: dist/claude-limit-guard-${{ steps.version.outputs.VERSION }}.zip
+          fail_on_unmatched_files: true
