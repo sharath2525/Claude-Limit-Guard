@@ -1,74 +1,74 @@
 <div align="center">
 
-# 🛡️ Claude Limit Guard
+# Claude Limit Guard
 
-**Shows your Claude token count, cache timer, and usage limits — right inside the Claude interface.**
-
-<a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest/download/claude-limit-guard.zip">
-  <img src="https://img.shields.io/badge/⬇️%20Download%20Extension-Click%20Here-brightgreen?style=for-the-badge" alt="Download">
-</a>
-
-> ⚠️ Use the button above — **not** the green "Code → Download ZIP" button (that one causes errors)
+**Tracks your Claude session and weekly usage limits — displayed directly inside the Claude interface.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg)](manifest.json)
-[![Chrome](https://img.shields.io/badge/Chrome-Supported-yellow.svg)](#-install)
-[![Edge](https://img.shields.io/badge/Edge-Supported-blue.svg)](#-install)
-[![No Trackers](https://img.shields.io/badge/Trackers-None-brightgreen.svg)](#-why-its-safe)
-[![Zero Permissions](https://img.shields.io/badge/Permissions-Zero-brightgreen.svg)](#-why-its-safe)
+[![Chrome](https://img.shields.io/badge/Chrome-Supported-yellow.svg)](#install)
+[![Edge](https://img.shields.io/badge/Edge-Supported-blue.svg)](#install)
+[![No Trackers](https://img.shields.io/badge/Trackers-None-brightgreen.svg)](#why-its-safe)
+[![Zero Permissions](https://img.shields.io/badge/Permissions-Zero-brightgreen.svg)](#why-its-safe)
 
-> ⚠️ Unofficial tool. Not affiliated with or endorsed by Anthropic.
+*Unofficial. Not affiliated with or endorsed by Anthropic.*
 
 </div>
 
 ---
 
-## 🚀 Install
+## What It Does
 
-No build step. No `npm install`. Just download and load.
+Adds a compact bar inside your Claude tab showing:
 
-**Step 1 — Download (use the Release ZIP, not "Download ZIP")**
+| Feature | Details |
+|---|---|
+| Session Bar | 5-hour rolling usage with colour-coded warnings |
+| Weekly Bar | 7-day usage with reset countdown |
+| Dark Mode | Auto-matches Claude's theme |
+| Click to Refresh | Click the bar to manually refresh limits |
 
-Go to the [**Releases**](../../releases/latest) page → download **`claude-limit-guard-vX.X.X.zip`**
+Bar colours: Green = normal · Yellow = approaching limit (≥80%) · Red = near limit (≥98%)
 
-> ⚠️ Do **not** use the green **`Code → Download ZIP`** button on the main page.
-> That ZIP has a nested folder inside which causes a *"Manifest file missing"* error in Edge/Chrome.
-> The Release ZIP is built cleanly — no nesting, works first time.
+---
+
+## Install
+
+No build step. No dependencies. Download and load in under a minute.
+
+**Step 1 — Download**
+
+<a href="https://github.com/sharath2525/Claude-Limit-Guard/releases/latest/download/claude-limit-guard.zip">
+  <img src="https://img.shields.io/badge/Download%20Extension-.zip-blue?style=for-the-badge" alt="Download ZIP">
+</a>
+
+Click the button above. The ZIP extracts with `manifest.json` at the root — ready to load directly.
+
+> Do **not** use the green "Code → Download ZIP" button on the repo page. That ZIP has an extra nested folder which causes a "Manifest file missing" error.
 
 **Step 2 — Extract**
 
-Right-click the ZIP → **Extract All** (Windows) or double-click (Mac).
-You'll get a folder with **`manifest.json`** directly inside — no sub-folders to navigate.
+Right-click the downloaded ZIP → **Extract All**. You'll get a single folder with `manifest.json` inside.
 
 **Step 3 — Open Extensions**
 
-Type in your browser address bar and press Enter:
-```
-chrome://extensions
-```
-*(Edge users: `edge://extensions`)*
+Go to `chrome://extensions` in Chrome or `edge://extensions` in Edge.
 
 **Step 4 — Enable Developer Mode**
 
-Toggle **Developer mode** ON in the top-right corner.
+Toggle **Developer mode** on in the top-right corner.
 
 **Step 5 — Load the Extension**
 
-Click **`Load unpacked`** → select the extracted folder from Step 2.
+Click **Load unpacked** → select the folder you extracted in Step 2.
 
 **Step 6 — Pin It**
 
-Click the 🧩 puzzle-piece icon in your toolbar → find **Claude Limit Guard** → click 📌 to pin it.
+Click the puzzle-piece icon in your browser toolbar → find **Claude Limit Guard** → pin it.
 
 **Step 7 — Open Claude**
 
-Go to [claude.ai](https://claude.ai), open any conversation — the bars appear automatically.
-
-**Using Git instead?**
-```bash
-git clone https://github.com/YOUR_USERNAME/claude-limit-guard.git
-```
-Then follow Steps 3–7, selecting the cloned folder at Step 5.
+Go to [claude.ai](https://claude.ai) and open any conversation — the usage bars appear automatically.
 
 ---
 
@@ -76,73 +76,58 @@ Then follow Steps 3–7, selecting the cloned folder at Step 5.
 
 | Problem | Fix |
 |---|---|
-| "Load unpacked" not visible | Toggle Developer mode ON first |
+| "Load unpacked" not visible | Enable Developer mode first |
 | Nothing shows on Claude | Refresh the Claude tab after loading |
-| "Manifest file missing" error | You used "Download ZIP" from the main page — download from [Releases](../../releases/latest) instead |
-| Extension gone after restart | Normal for unpacked — reload from `chrome://extensions` |
+| "Manifest file missing" error | Use the Download button above, not "Code → Download ZIP" |
+| Extension gone after browser restart | Normal for unpacked extensions — reload it from `chrome://extensions` |
 
 ---
 
-## ✨ What It Does
+## Why It's Safe
 
-Adds a small info bar inside your Claude tab showing:
+### Zero Permissions
 
-| | Feature | Details |
-|---|---|---|
-| 📊 | **Session Bar** | 5-hour rolling usage with colour-coded warnings |
-| 📅 | **Weekly Bar** | 7-day usage with reset countdown |
-| 🎨 | **Dark Mode** | Auto-matches Claude's theme |
-| 🖱️ | **Click to Refresh** | Click the usage bar to refresh limits manually |
-
-**Bar colours:** 🟢 Normal &nbsp;|&nbsp; 🟡 Approaching limit (≥80%) &nbsp;|&nbsp; 🔴 Near limit (≥98%)
-
----
-
-## 🔐 Why It's Safe
-
-### Permissions — Zero
-
-The `permissions` array in `manifest.json` is literally `[]` — empty.
-The extension only runs on `claude.ai` pages. It cannot touch any other site or tab.
+The `permissions` array in `manifest.json` is `[]` — empty. The extension runs only on `claude.ai` pages and cannot access any other site or tab.
 
 | Permission | Status |
 |---|---|
-| Read all websites | ❌ Not requested |
-| Read cookies | ❌ Not requested |
-| Browser tabs / history | ❌ Not requested |
-| Clipboard / downloads | ❌ Not requested |
-| Extension storage | ❌ Not used |
-| `claude.ai` pages only | ✅ Required to show the UI |
+| Read all websites | Not requested |
+| Read cookies | Not requested |
+| Browser tabs / history | Not requested |
+| Clipboard / downloads | Not requested |
+| Extension storage | Not used |
+| `claude.ai` pages only | Required to display the UI |
 
 ### Network — Same Site Only
 
-Every request goes only to `claude.ai` — the same site already open in your browser:
+Every request goes only to `claude.ai` — the same domain already open in your browser:
+
 ```
 GET https://claude.ai/api/organizations/{orgId}/usage
 GET https://claude.ai/api/organizations/{orgId}/chat_conversations/{id}
 ```
-No third-party servers. No analytics. No phone-home. Nothing sent outward.
+
+No third-party servers. No analytics. Nothing sent outward.
 
 ### Storage — Nothing Saved
 
-No `localStorage`, no `sessionStorage`, no `chrome.storage`, no cookies written.
-All data is computed in memory and gone when you close the tab.
+No `localStorage`, `sessionStorage`, `chrome.storage`, or cookies written. All data is computed in memory and gone when you close the tab.
 
-### Code — Audited Clean
+### Code — Clean
 
-| Risk | Result |
+| Check | Result |
 |---|---|
-| `innerHTML` anywhere | ✅ None — only `createElement` + `.textContent` |
-| `eval()` or dynamic scripts | ✅ None |
-| External scripts at runtime | ✅ None |
-| XSS / injection vectors | ✅ None found |
-| Content Security Policy | ✅ `script-src 'self'; object-src 'none'` |
+| `innerHTML` anywhere | None — only `createElement` + `.textContent` |
+| `eval()` or dynamic scripts | None |
+| External scripts at runtime | None |
+| XSS / injection vectors | None found |
+| Content Security Policy | `script-src 'self'; object-src 'none'` |
 
-> 🔍 **Verify yourself:** All source is in `src/` — four small files under 600 lines total. Check `manifest.json`: `permissions: []`, `host_permissions: []`. Open Chrome DevTools Network tab on Claude — you'll see only `claude.ai` requests.
+Verify yourself: all source is in `src/` — four small files. Check `manifest.json`: `permissions: []`, `host_permissions: []`.
 
 ---
 
-## 🔄 Data Flow
+## Data Flow
 
 ```
 You open claude.ai
@@ -150,46 +135,44 @@ You open claude.ai
         ▼
 Extension starts (isolated — cannot touch page JS)
         │
-        ├─► Reads lastActiveOrg cookie value → used to build API URL only
+        ├── Reads lastActiveOrg cookie → used only to build the API URL
         │
-        ├─► GET /api/organizations/{orgId}/usage
-        │       └─► Shows: Session bar, Weekly bar, Reset countdown
+        ├── GET /api/organizations/{orgId}/usage
+        │       └── Shows session bar, weekly bar, reset countdown
         │
-        └─► Nothing is sent outward. Display is local DOM only.
+        └── Nothing is sent outward. Display is local DOM only.
 ```
 
-| Data | Refresh |
-|---|---|
-| Usage bars | Every 1 hour (or click to refresh) |
+Usage bars refresh every 1 hour, or on click.
 
 ---
 
-## ❓ FAQ
+## FAQ
 
 **Does it send my conversations anywhere?**
-No. Token counting is done locally from data `claude.ai` already loads. Nothing is forwarded.
+No. Data comes from `claude.ai` endpoints already loaded in your browser. Nothing is forwarded.
 
-**Is the token count exact?**
-No — it's an estimate. Claude uses a proprietary tokeniser; this extension approximates it. Accurate enough to track context usage.
+**Is the usage count exact?**
+No — it's an estimate based on the same API data Claude uses internally. Accurate enough for tracking context limits.
 
 **Will it break if Anthropic updates Claude?**
-Possibly. If Claude's UI or API paths change, the extension stops showing data silently — it will never crash Claude itself.
+Possibly. If Claude's API paths change, the extension stops showing data silently — it will never crash or affect Claude itself.
 
-**Does it work on Claude mobile?**
+**Does it work on mobile?**
 No. Desktop Chrome and Edge only.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-PRs welcome. Please keep `permissions: []` in the manifest and avoid `innerHTML`, `eval()`, or any external network requests.
-
----
-
-## 📜 License
-
-MIT License — Copyright (c) 2026 Sharath — see [LICENSE](LICENSE)
+PRs welcome. Keep `permissions: []` in the manifest and avoid `innerHTML`, `eval()`, or external network requests.
 
 ---
 
-<div align="center">No trackers. No ads. No nonsense.</div>
+## License
+
+MIT — Copyright (c) 2026 Sharath. See [LICENSE](LICENSE).
+
+---
+
+<div align="center"><i>No trackers. No ads. No nonsense.</i></div>
