@@ -13,6 +13,8 @@
 
 *Unofficial. Not affiliated with or endorsed by Anthropic.*
 
+[Privacy Policy](PRIVACY.md)
+
 </div>
 
 ---
