@@ -36,6 +36,22 @@ Bar colours: Green = normal, Yellow = approaching limit (80%+), Red = near limit
 
 ## Install
 
+Choose the method that works best for you:
+
+### Option 1 — Chrome Web Store (Recommended)
+
+The easiest way. One click, no setup needed.
+
+<a href="https://chromewebstore.google.com/detail/claude-limit-guard/njmlhjabppkblfpcepmikdnejoehdgki">
+  <img src="https://img.shields.io/badge/Install%20from%20Chrome%20Web%20Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install from Chrome Web Store">
+</a>
+
+Click the button above → **Add to Chrome** → **Add extension**. Done.
+
+---
+
+### Option 2 — Manual ZIP Install (Chrome & Edge)
+
 No build step. No dependencies. Done in under a minute.
 
 **Step 1: Download**
